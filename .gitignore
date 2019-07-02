@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Built application files
 build/
 
@@ -6,10 +7,14 @@ build/
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
+=======
+#crone_tlt
+>>>>>>> 0fca2c6764d13fd633759fc6f14ae4faa4c62ecd
 
 # Gradle files
 .gradle/
 
+<<<<<<< HEAD
 # Signing files
 .signing/
 
@@ -38,3 +43,16 @@ google-services.json
 
 # Version control
 vcs.xml
+=======
+# User-specific configurations
+*.iml
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+>>>>>>> 0fca2c6764d13fd633759fc6f14ae4faa4c62ecd
