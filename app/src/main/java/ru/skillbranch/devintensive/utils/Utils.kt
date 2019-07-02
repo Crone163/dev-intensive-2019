@@ -6,17 +6,16 @@ object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
         val parts: List<String>? = fullName?.split(" ")
         var firstName = parts?.getOrNull(0)
-        if (firstName == "") firstName = null
+        if (firstName.equals("")) firstName = null
         var lastName = parts?.getOrNull(1)
-        if (lastName == "") lastName = null
+        if (lastName.equals("")) lastName = null
         //return Pair(firstName , lastName)
         return firstName to lastName
     }
 
 
     fun transliteration(payload: String, divider: String = " "): String {
-        var inputString = ""
-        payload.forEach {
+        return payload.map {
             val isUpper = it.isUpperCase()
             val transLetter = when (it.toLowerCase()) {
                 'а' -> "a"
@@ -50,9 +49,8 @@ object Utils {
                 ' ' -> divider
                 else -> "$it"
             }
-            inputString += if (isUpper) transLetter.capitalize() else transLetter
-        }
-        return inputString
+            if (isUpper) transLetter.capitalize() else transLetter
+        }.joinToString("")
     }
 
     fun toInitials(firstName: String?, lastName: String?): String? {

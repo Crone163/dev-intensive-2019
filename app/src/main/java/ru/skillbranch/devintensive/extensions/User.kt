@@ -17,7 +17,6 @@ fun User.toUserView(): UserView {
         nickName = nickName,
         initials = initials,
         status = status
-
     )
 }
 
