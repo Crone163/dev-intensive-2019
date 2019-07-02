@@ -19,8 +19,8 @@ abstract class BaseMessage(
             chat: Chat,
             // Я хз ошибка это или нет, но в реализации патерна сначала идёт тип, потом payload, а в примере наоборот: сначала payload, потом тип
             date: Date = Date(),
-            payload: Any?,
             type: String = "text",
+            payload: Any?,
             isIncoming: Boolean = false
         ): BaseMessage {
             lastId++
