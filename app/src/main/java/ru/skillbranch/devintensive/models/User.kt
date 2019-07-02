@@ -46,14 +46,14 @@ data class User(
         var lastVisit: Date? = null,
         var isOnline: Boolean = false
     ) {
-        fun setId(id: String) = apply { this.id = id }
-        fun setFirstName(firstName: String) = apply { this.firstName = firstName }
-        fun setLastName(lastName: String) = apply { this.lastName = lastName }
-        fun setAvatar(avatar: String) = apply { this.avatar = avatar }
-        fun setRating(rating: Int) = apply { this.rating = rating }
-        fun setRespect(respect: Int) = apply { this.respect = respect }
-        fun setLastVisit(lastVisit: Date) = apply { this.lastVisit = lastVisit }
-        fun setIsOnline(isOnline: Boolean) = apply { this.isOnline = isOnline }
+        fun id(id: String) = apply { this.id = id }
+        fun firstName(firstName: String?) = apply { this.firstName = firstName }
+        fun lastName(lastName: String?) = apply { this.lastName = lastName }
+        fun avatar(avatar: String?) = apply { this.avatar = avatar }
+        fun rating(rating: Int) = apply { this.rating = rating }
+        fun respect(respect: Int) = apply { this.respect = respect }
+        fun lastVisit(lastVisit: Date?) = apply { this.lastVisit = lastVisit }
+        fun isOnline(isOnline: Boolean) = apply { this.isOnline = isOnline }
         fun build() = User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
     }
 

@@ -47,6 +47,8 @@ fun Date.humanizeDiff(date: Date = Date()): String {
 private fun plurals(diff: Long, isPast: Boolean, units: TimeUnits): String {
     val remainder = diff % 10
     val quotient = diff / 10
+    val preLastDigit = diff % 100 / 10
+
     val plurals: Map<TimeUnits, Map<PluralUnits, String>> = mapOf(
         TimeUnits.MINUTE to mapOf(
             PluralUnits.FEW to "минуты",
@@ -66,6 +68,9 @@ private fun plurals(diff: Long, isPast: Boolean, units: TimeUnits): String {
     )
 
     return when {
+        (preLastDigit == 1L) -> if (isPast) "$diff ${plurals[units]?.get(PluralUnits.MANY)} назад"
+        else "через $diff ${plurals[units]?.get(PluralUnits.MANY)}"
+
         (remainder in 2..4) && (quotient != 1L) ->
             if (isPast) "$diff ${plurals[units]?.get(PluralUnits.FEW)} назад"
             else "через $diff ${plurals[units]?.get(PluralUnits.FEW)}"
@@ -76,6 +81,8 @@ private fun plurals(diff: Long, isPast: Boolean, units: TimeUnits): String {
             if (isPast) "$diff ${plurals[units]?.get(PluralUnits.MANY)} назад"
             else "через $diff ${plurals[units]?.get(PluralUnits.MANY)}"
     }
+
+
 }
 
 enum class PluralUnits {

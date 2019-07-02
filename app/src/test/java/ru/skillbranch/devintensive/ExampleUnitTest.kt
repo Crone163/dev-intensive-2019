@@ -138,11 +138,11 @@ class ExampleUnitTest {
     fun test_builder() {
         val user =
             User.Builder()
-                .setFirstName("Андрей")
-                .setLastName("Чувачковый")
-                .setRating(5)
-                .setIsOnline(true)
-                .setLastVisit(Date().add(-2, TimeUnits.DAY))
+                .firstName("Андрей")
+                .lastName("Чувачковый")
+                .rating(5)
+                .isOnline(true)
+                .lastVisit(Date().add(-2, TimeUnits.DAY))
                 .build()
 
         print(user)
