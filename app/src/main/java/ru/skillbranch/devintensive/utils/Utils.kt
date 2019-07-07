@@ -5,10 +5,9 @@ object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
         //Удаляем пробелы в начале и в конце
-        var newName = fullName?.trimStart()?.trimEnd()
+        var newName = fullName?.trim()
         //Заменяем мульти пробелы одним пробелом
-        newName = newName?.replace(Regex("\\s{2,}")," ")
-
+        newName = newName?.replace(Regex("\\s{2,}"), " ")
         val parts: List<String>? = newName?.split(" ")
         var firstName = parts?.getOrNull(0)
         if (firstName.isNullOrEmpty()) firstName = null
@@ -25,10 +24,12 @@ object Utils {
             'в' -> "v"
             'г' -> "g"
             'д' -> "d"
-            'е', 'ё', 'э' -> "e"
+            'е' -> "e"
+            'ё' -> "e"
             'ж' -> "zh"
             'з' -> "z"
-            'и', 'й', 'ы' -> "i"
+            'и' -> "i"
+            'й' -> "i"
             'к' -> "k"
             'л' -> "l"
             'м' -> "m"
@@ -44,8 +45,11 @@ object Utils {
             'ц' -> "c"
             'ч' -> "ch"
             'ш' -> "sh"
-            'щ' -> "shch"
-            'ъ', 'ь' -> ""
+            'щ' -> "sh'"
+            'ъ' -> ""
+            'ы' -> "i"
+            'ь' -> ""
+            'э' -> "e"
             'ю' -> "yu"
             'я' -> "ya"
             ' ' -> divider
@@ -55,13 +59,10 @@ object Utils {
     }.joinToString("")
 
 
-    fun toInitials(firstName: String?, lastName: String?): String? {
-        return when {
-            firstName.isNullOrBlank() && lastName.isNullOrBlank() -> null
-            firstName.isNullOrBlank() -> "${lastName?.get(0)}".toUpperCase()
-            lastName.isNullOrBlank() -> "${firstName[0]}".toUpperCase()
-            else -> "${firstName[0]}${lastName[0]}".toUpperCase()
-        }
+    fun toInitials(firstName: String?, lastName: String?) = when {
+        firstName.isNullOrBlank() && lastName.isNullOrBlank() -> null
+        firstName.isNullOrBlank() -> "${lastName?.get(0)}".toUpperCase()
+        lastName.isNullOrBlank() -> "${firstName[0]}".toUpperCase()
+        else -> "${firstName[0]}${lastName[0]}".toUpperCase()
     }
-
 }

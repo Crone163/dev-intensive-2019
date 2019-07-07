@@ -175,7 +175,7 @@ class TestsByCommunity {
         assertEquals("Zh Zh", Utils.transliteration("Ж Ж"))
         assertEquals("ZhZh", Utils.transliteration("ЖЖ"))
         assertEquals("AbrAKadabra", Utils.transliteration("AbrAKadabra"))
-        assertEquals("StraNNIi NikVashche", Utils.transliteration("СтраННЫй НикВаще"))
+        assertEquals("StraNNIi NikVash'e", Utils.transliteration("СтраННЫй НикВаще"))
     }
 
     @Test
@@ -385,26 +385,59 @@ class TestsByCommunity {
         assertEquals("более чем через год", Date().add(400, TimeUnits.DAY).humanizeDiff())
     }
 
+    @Test
+    fun test_plurals() {
+        assertEquals("2 часа назад", Date().add(-2, TimeUnits.HOUR).humanizeDiff())
+        assertEquals("5 дней назад", Date().add(-5, TimeUnits.DAY).humanizeDiff())
+        assertEquals("5 минут назад", Date().add(-5, TimeUnits.MINUTE).humanizeDiff())
+        assertEquals("через 2 минуты", Date().add(2, TimeUnits.MINUTE).humanizeDiff())
+        assertEquals("через 7 дней", Date().add(7, TimeUnits.DAY).humanizeDiff())
+        assertEquals("через 111 дней", Date().add(111, TimeUnits.DAY).humanizeDiff())
+        assertEquals("через 211 дней", Date().add(211, TimeUnits.DAY).humanizeDiff())
+        assertEquals("через 203 дня", Date().add(203, TimeUnits.DAY).humanizeDiff())
+        assertEquals("через 103 дня", Date().add(103, TimeUnits.DAY).humanizeDiff())
+        assertEquals("более года назад", Date().add(-400, TimeUnits.DAY).humanizeDiff())
+        assertEquals("более чем через год", Date().add(400, TimeUnits.DAY).humanizeDiff())
+    }
+    @Test
+    fun test_timeunit_plural() {
+        val result1 = TimeUnits.SECOND.plural(1) //1 секунду
+        val result2 = TimeUnits.MINUTE.plural(4) //4 минуты
+        val result3 = TimeUnits.HOUR.plural(19) //19 часов
+        val result4 = TimeUnits.DAY.plural(222) //222 дня
+        val result5 = TimeUnits.DAY.plural(111) //111 дней
 
-
-   /* @Test
-    fun test_abstractFactory() {
-        val user = User.makeUser("Test User")
-        val textMessage = BaseMessage.makeMessage(user, Chat("0"), Date(), "any text message", "text")
-        val imageMessage = BaseMessage.makeMessage(user, Chat("0"), Date(), "https://anyurl.com", "image", true)
-
-        assert(textMessage is TextMessage)
-        assert(imageMessage is ImageMessage)
+        assertEquals("1 секунду", result1)
+        assertEquals("4 минуты", result2)
+        assertEquals("19 часов", result3)
+        assertEquals("222 дня", result4)
+        assertEquals("111 дней", result5)
     }
 
     @Test
-    fun test_formatMessage() {
-        val user = User.makeUser("Василий Николаевич")
-        val textMessage = BaseMessage.makeMessage(user, Chat("0"), Date(), "any text message", "text")
-        assertEquals("Василий отправил сообщение \"any text message\" только что", textMessage.formatMessage())
+    fun test_string_truncate() {
+        val result1 = "Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate() //Bender Bending R...
+        val result2 = "Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate(15) //Bender Bending...
+        val result3 = "A     ".truncate(3) //A
+        val result4 = "     A     ".truncate(3) //A
+        val result5 = "Посмотрим на это".truncate(9)
+        val result6 = "Посмотрим на это".truncate(10)
 
-        val imageSentDate = Date().add(-2, TimeUnits.HOUR)
-        val imageMessage = BaseMessage.makeMessage(user, Chat("0"), imageSentDate, "https://anyurl.com", "image", true)
-        assertEquals("Василий получил изображение \"https://anyurl.com\" 2 часа назад", imageMessage.formatMessage())
-    }*/
+        assertEquals("Посмотрим...",result5)
+        assertEquals("Посмотрим...",result6)
+        assertEquals("Bender Bending R...", result1)
+        assertEquals("Bender Bending...", result2)
+        assertEquals("A", result3)
+        assertEquals("A", result4)
+    }
+
+
+    @Test
+    fun test_string_striphtml() {
+        val result1 = "<p class=\"title\">Образовательное IT-сообщество Skill Branch</p>".stripHtml() //Образовательное IT-сообщество Skill Branch
+        val result2 = "<p>Образовательное       IT-сообщество Skill Branch</p>".stripHtml() //Образовательное IT-сообщество Skill Branch
+
+        assertEquals("Образовательное IT-сообщество Skill Branch", result1)
+        assertEquals("Образовательное IT-сообщество Skill Branch", result2)
+    }
 }
