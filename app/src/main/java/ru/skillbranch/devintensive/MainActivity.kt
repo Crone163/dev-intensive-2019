@@ -83,11 +83,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v == sendBtn) {
             if (!messageEt.text.isEmpty()) {
-                val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase().trim())
+                if (benderObj.question != Bender.Question.IDLE) {
+                    val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase().trim())
+                    val (r, g, b) = color
+                    benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+                    textTxt.text = phrase
+                }
                 messageEt.setText("")
-                val (r, g, b) = color
-                benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
-                textTxt.text = phrase
                 hideKeyboard()
             } else {
                 Toast.makeText(this, "Введите ответ", Toast.LENGTH_LONG).show()
