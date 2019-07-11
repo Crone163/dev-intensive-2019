@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dev-intenvise</string>
+    <string name="et_message_hint">Введите текст</string>
+
 </resources>
