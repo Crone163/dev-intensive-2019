@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (v == sendBtn) {
             if (!messageEt.text.isEmpty()) {
                 if (benderObj.question != Bender.Question.IDLE) {
-                    val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase().trim())
+                    val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().trim())
                     val (r, g, b) = color
                     benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
                     textTxt.text = phrase
