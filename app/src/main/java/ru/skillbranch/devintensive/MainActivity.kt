@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val (r, g, b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
-        
+
         textTxt.text = benderObj.askQuestion()
 
         messageEt.setOnEditorActionListener { _, actionId, _ ->
