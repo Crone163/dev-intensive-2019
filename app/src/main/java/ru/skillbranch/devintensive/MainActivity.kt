@@ -2,7 +2,6 @@ package ru.skillbranch.devintensive
 
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -11,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.extensions.isKeyboardClosed
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         textTxt.text = text
 
-        messageEt.setOnEditorActionListener { v, actionId, event ->
+        messageEt.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 onClick(sendBtn)
                 hideKeyboard()
