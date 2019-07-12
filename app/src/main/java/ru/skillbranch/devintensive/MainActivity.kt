@@ -47,14 +47,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val status = savedInstanceState?.getString(SavedInstancesConst.STATUS) ?: Bender.Status.NORMAL.name
         val question = savedInstanceState?.getString(SavedInstancesConst.QUESTION) ?: Bender.Question.NAME.name
-        val text = savedInstanceState?.getString(SavedInstancesConst.TEXT) ?: Bender.Question.NAME.question
+        //val text = savedInstanceState?.getString(SavedInstancesConst.TEXT) ?: Bender.Question.NAME.question
 
         benderObj = Bender(Bender.Status.valueOf(status), Bender.Question.valueOf(question))
 
         val (r, g, b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
-
-        textTxt.text = text
+        
+        textTxt.text = benderObj.askQuestion()
 
         messageEt.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putString(SavedInstancesConst.STATUS, benderObj.status.name)
         outState?.putString(SavedInstancesConst.QUESTION, benderObj.question.name)
-        outState?.putString(SavedInstancesConst.TEXT, textTxt.text.toString())
+       // outState?.putString(SavedInstancesConst.TEXT, textTxt.text.toString())
         super.onSaveInstanceState(outState)
 
     }
