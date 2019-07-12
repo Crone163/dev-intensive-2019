@@ -26,7 +26,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         } else {
             if (question.answers.contains(answer.toLowerCase())) {
                 question = question.nextQuestion()
-                if (question == Question.IDLE) {
+                if (question.ordinal == Question.values().lastIndex) {
                     status = Status.NORMAL
                     mistakes = 0
                     "Отлично - ты справился\nНа этом все, вопросов больше нет" to status.color
