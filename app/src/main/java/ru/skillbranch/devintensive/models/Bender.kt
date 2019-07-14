@@ -1,49 +1,31 @@
 package ru.skillbranch.devintensive.models
 
 class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) {
-
-
     var mistakes: Int = 0
 
     init {
         mistakes = status.ordinal
     }
 
+    fun askQuestion(): String = question.question
 
-    fun askQuestion(): String = when (question) {
-        Question.NAME -> Question.NAME.question
-        Question.PROFESSION -> Question.PROFESSION.question
-        Question.MATERIAL -> Question.MATERIAL.question
-        Question.BDAY -> Question.BDAY.question
-        Question.SERIAL -> Question.SERIAL.question
-        Question.IDLE -> Question.IDLE.question
-
-    }
-
-    fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
-        return if (!question.validation(answer).first) {
-            "${question.validation(answer).second}\n${question.question}" to status.color
-        } else {
-            if (question.answers.contains(answer.toLowerCase())) {
-                question = question.nextQuestion()
-                if (question.ordinal == Question.values().lastIndex) {
-                    status = Status.NORMAL
-                    mistakes = 0
-                    "Отлично - ты справился\nНа этом все, вопросов больше нет" to status.color
-                } else {
-                    "Отлично - ты справился\n${question.question}" to status.color
-                }
+    fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> = when {
+        question == Question.IDLE -> question.question to status.color
+        !question.validation(answer).first -> "${question.validation(answer).second}\n${question.question}" to status.color
+        question.answers.contains(answer.toLowerCase()) -> {
+            question = question.nextQuestion()
+            "Отлично - ты справился\n${question.question}" to status.color
+        }
+        else -> {
+            mistakes++
+            if (mistakes < Status.values().size) {
+                status = status.nextStatus()
+                "Это неправильный ответ\n${question.question}" to status.color
             } else {
-                mistakes++
-                if (mistakes < Status.values().size) {
-                    status = status.nextStatus()
-                    "Это неправильный ответ\n${question.question}" to status.color
-                } else {
-                    status = Status.NORMAL
-                    question = Question.NAME
-                    mistakes = 0
-                    "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
-                }
+                status = Status.NORMAL
+                question = Question.NAME
+                mistakes = 0
+                "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
             }
         }
     }
@@ -55,13 +37,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         DANGER(Triple(255, 60, 60)),
         CRITICAL(Triple(255, 0, 0));
 
-        fun nextStatus(): Status {
-            return if (this.ordinal < values().lastIndex) {
-                values()[this.ordinal + 1]
-            } else {
-                values()[0]
-            }
-        }
+        fun nextStatus(): Status = values()[ordinal + 1]
     }
 
     enum class Question(val question: String, val answers: List<String>) {
