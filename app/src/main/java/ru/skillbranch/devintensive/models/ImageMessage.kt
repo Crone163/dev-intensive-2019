@@ -11,7 +11,6 @@ class ImageMessage(
     date: Date = Date(),
     val image: String?
 ) : BaseMessage(id, from, chat, isIncoming, date) {
-    //formatMessage() - возвращает строку содержащюю информацию о id сообщения, имени получателя/отправителя, виде сообщения ("получил/отправил") и типе сообщения ("сообщение"/"изображение")
     override fun formatMessage(): String =
         "${from?.firstName} ${if (isIncoming) "получил" else "отправил"} изображение \"$image\" ${date.humanizeDiff()}"
 }

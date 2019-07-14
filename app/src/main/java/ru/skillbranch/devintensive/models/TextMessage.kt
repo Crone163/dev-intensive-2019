@@ -11,7 +11,6 @@ class TextMessage(
     date: Date = Date(),
     val text: String?
 ) : BaseMessage(id, from, chat, isIncoming, date) {
-    //formatMessage() - возвращает строку содержащюю информацию о id сообщения, имени получателя/отправителя, виде сообщения ("получил/отправил") и типе сообщения ("сообщение"/"изображение")
     override fun formatMessage(): String =
         "${from?.firstName} ${if (isIncoming) "получил" else "отправил"} сообщение \"$text\" ${date.humanizeDiff()}"
 }

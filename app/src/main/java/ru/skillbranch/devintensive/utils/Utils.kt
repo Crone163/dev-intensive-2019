@@ -4,9 +4,7 @@ object Utils {
 
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
-        //Удаляем пробелы в начале и в конце
         var newName = fullName?.trim()
-        //Заменяем мульти пробелы одним пробелом
         newName = newName?.replace(Regex("\\s{2,}"), " ")
         val parts: List<String>? = newName?.split(" ")
         var firstName = parts?.getOrNull(0)

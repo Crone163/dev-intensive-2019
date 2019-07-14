@@ -24,9 +24,6 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
     return this
 }
 
-// Довольно долго гуглил как правильно организовать данную функцию
-// и наткнулся на репозиторий от bgv26 - спасибо ему за данную функцию
-// Немного модернизировал
 fun Date.humanizeDiff(date: Date = Date()): String {
     val diff = date.time - this.time
     val absDiff = Math.abs(diff)
@@ -51,8 +48,6 @@ fun Date.humanizeDiff(date: Date = Date()): String {
         else -> if (diff > 0) "более года назад" else "более чем через год"
     }
 }
-
-
 
 enum class TimeUnits {
     SECOND, MINUTE, HOUR, DAY;

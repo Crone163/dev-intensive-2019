@@ -51,14 +51,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         sendBtn.setOnClickListener { sendMessage() }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putString(SavedInstancesConst.STATUS, benderObj.status.name)
         outState?.putString(SavedInstancesConst.QUESTION, benderObj.question.name)
         super.onSaveInstanceState(outState)
-
     }
     //endregion
 
