@@ -1,31 +1,24 @@
 package ru.skillbranch.devintensive.models
 
 class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) {
-    var mistakes: Int = 0
-
-    init {
-        mistakes = status.ordinal
-    }
 
     fun askQuestion(): String = question.question
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> = when {
         question == Question.IDLE -> question.question to status.color
         !question.validation(answer).first -> "${question.validation(answer).second}\n${question.question}" to status.color
-        question.answers.contains(answer.toLowerCase()) -> {
+        question.answers.contains(answer.toLowerCase().trim()) -> {
             question = question.nextQuestion()
             "Отлично - ты справился\n${question.question}" to status.color
         }
         else -> {
-            mistakes++
-            if (mistakes < Status.values().size) {
-                status = status.nextStatus()
-                "Это неправильный ответ\n${question.question}" to status.color
-            } else {
+            if (status == Status.CRITICAL) {
                 status = Status.NORMAL
                 question = Question.NAME
-                mistakes = 0
                 "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+            } else {
+                status = status.nextStatus()
+                "Это неправильный ответ\n${question.question}" to status.color
             }
         }
     }
@@ -44,12 +37,12 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         NAME("Как меня зовут?", listOf("бендер", "bender")) {
             override fun nextQuestion() = values()[ordinal + 1]
             override fun validation(answer: String?): Pair<Boolean, String> =
-                (answer?.get(0)?.isUpperCase() ?: false) to "Имя должно начинаться с заглавной буквы"
+                (!answer.isNullOrBlank() && answer.first().isUpperCase()) to "Имя должно начинаться с заглавной буквы"
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
             override fun nextQuestion() = values()[ordinal + 1]
             override fun validation(answer: String?): Pair<Boolean, String> =
-                (answer?.get(0)?.isLowerCase() ?: false) to "Профессия должна начинаться со строчной буквы"
+                (!answer.isNullOrBlank() && answer.first().isLowerCase()) to "Профессия должна начинаться со строчной буквы"
         },
         MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")) {
             override fun nextQuestion() = values()[ordinal + 1]

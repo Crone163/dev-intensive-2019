@@ -56,35 +56,16 @@ enum class TimeUnits {
         val remainder = value % 10
         val preLastDigit = value % 100 / 10
         val plurals = mapOf(
-            SECOND to mapOf(
-                PluralUnits.FEW to "секунды",
-                PluralUnits.ONE to "секунду",
-                PluralUnits.MANY to "секунд"
-            ),
-            MINUTE to mapOf(
-                PluralUnits.FEW to "минуты",
-                PluralUnits.ONE to "минуту",
-                PluralUnits.MANY to "минут"
-            ),
-            HOUR to mapOf(
-                PluralUnits.FEW to "часа",
-                PluralUnits.ONE to "час",
-                PluralUnits.MANY to "часов"
-            ),
-            DAY to mapOf(
-                PluralUnits.FEW to "дня",
-                PluralUnits.ONE to "день",
-                PluralUnits.MANY to "дней"
-            )
+            SECOND to Triple("секунды", "секунду", "секунд"),
+            MINUTE to Triple("минуты", "минуту", "минут"),
+            HOUR to Triple("часа", "час", "часов"),
+            DAY to Triple("дня", "день", "дней")
         )
         return when {
-            (preLastDigit == 1L) -> "$value ${plurals[this]?.get(PluralUnits.MANY)}"
-            (remainder in 2..4)   -> "$value ${plurals[this]?.get(PluralUnits.FEW)}"
-            (remainder == 1L)  -> "$value ${plurals[this]?.get(PluralUnits.ONE)}"
-            else -> "$value ${plurals[this]?.get(PluralUnits.MANY)}"
+            (remainder in 2..4)   -> "$value ${plurals[this]?.first}"
+            (remainder == 1L && preLastDigit != 1L)  -> "$value ${plurals[this]?.second}"
+            else -> "$value ${plurals[this]?.third}"
         }
     }
-    private enum class PluralUnits {
-        FEW, ONE, MANY
-    }
+
 }

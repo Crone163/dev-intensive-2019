@@ -62,13 +62,11 @@ class MainActivity : AppCompatActivity() {
 
     //region=================================== FUNCTIONS ===================================
     private fun sendMessage() {
-        if (messageEt.text.isNotEmpty()) {
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().trim())
-            val (r, g, b) = color
-            benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
-            textTxt.text = phrase
-            messageEt.setText("")
-        }
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
+        val (r, g, b) = color
+        benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+        textTxt.text = phrase
+        messageEt.setText("")
         hideKeyboard()
     }
     //endregion
