@@ -59,8 +59,8 @@ object Utils {
 
     fun toInitials(firstName: String?, lastName: String?) = when {
         firstName.isNullOrBlank() && lastName.isNullOrBlank() -> null
-        firstName.isNullOrBlank() -> "${lastName?.get(0)}".toUpperCase()
-        lastName.isNullOrBlank() -> "${firstName[0]}".toUpperCase()
+        firstName.isNullOrBlank() -> "${lastName?.first()}".toUpperCase()
+        lastName.isNullOrBlank() -> "${firstName.first()}".toUpperCase()
         else -> "${firstName[0]}${lastName[0]}".toUpperCase()
     }
 }
