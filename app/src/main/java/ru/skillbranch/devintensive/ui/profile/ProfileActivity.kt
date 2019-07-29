@@ -134,7 +134,7 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
             if (it["firstName"].toString().isNotEmpty() || it["lastName"].toString().isNotEmpty()) {
-                iv_avatar.setImageDrawable(getLetterTile(it["firstName"].toString(),it["lastName"].toString()))
+                iv_avatar.setImageDrawable(getLetterTile(it["firstName"].toString(), it["lastName"].toString()))
             }
         }
     }
@@ -202,17 +202,11 @@ class ProfileActivity : AppCompatActivity() {
         paint.color = getColorAccent()
         c.drawCircle(halfWidth, halfHeight, halfWidth, paint)
 
-
-
         paint.textSize = 52f.toSp()
+        paint.textAlign = Paint.Align.CENTER
         paint.color = resources.getColor(android.R.color.white, theme)
         paint.getTextBounds(initials, 0, initials!!.length, bounds)
-        c.drawText(
-            initials.toString(),
-            halfWidth - paint.measureText(initials) / 2,
-            halfHeight + bounds.height() / 2,
-            paint
-        )
+        c.drawText(initials.toString(), halfWidth, halfHeight - ((paint.descent() + paint.ascent()) / 2), paint)
         return BitmapDrawable(resources, bitmap)
     }
 
