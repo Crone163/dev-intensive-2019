@@ -10,7 +10,8 @@ data class Profile(
     val rating: Int = 0,
     val respect: Int = 0
 ) {
-    val nickName: String = Utils.transliteration("$firstName$lastName", "_")
+
+    val nickName: String = if(firstName.isNotBlank() && lastName.isNotBlank()) Utils.transliteration("$firstName $lastName", "_") else  Utils.transliteration("$firstName $lastName", "")
     val rank: String = "Junior Android Developer"
 
     fun toMap(): Map<String, Any> = mapOf(
