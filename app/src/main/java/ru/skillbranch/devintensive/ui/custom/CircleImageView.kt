@@ -29,7 +29,7 @@ class CircleImageView : AppCompatImageView {
     private val mCircleBackgroundPaint = Paint()
 
     private var mBorderColor = DEFAULT_BORDER_COLOR
-    private var mBorderWidth = 0;
+    private var mBorderWidth = DEFAULT_BORDER_WIDTH;
     private var mCircleBackgroundColor = DEFAULT_CIRCLE_BACKGROUND_COLOR
 
     private var mBitmap: Bitmap? = null
@@ -98,7 +98,6 @@ class CircleImageView : AppCompatImageView {
         }
 
     constructor(context: Context) : super(context) {
-
         init()
     }
 
@@ -108,7 +107,7 @@ class CircleImageView : AppCompatImageView {
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0)
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_сц_borderWidth, 2.toPx())
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH.toPx())
         mBorderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
         mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_cv_borderOverlay, DEFAULT_BORDER_OVERLAY)
 
@@ -158,7 +157,7 @@ class CircleImageView : AppCompatImageView {
     }
 
     fun setBorderColor(@ColorRes colorId: Int) {
-        val borderColor = ContextCompat.getColor(context,colorId)
+        val borderColor = ContextCompat.getColor(context, colorId)
         if (borderColor == mBorderColor) {
             return
         }
@@ -407,7 +406,7 @@ class CircleImageView : AppCompatImageView {
         private val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
         private const val COLORDRAWABLE_DIMENSION = 2
 
-
+        private const val DEFAULT_BORDER_WIDTH = 2
         private const val DEFAULT_BORDER_COLOR = Color.WHITE
         private const val DEFAULT_CIRCLE_BACKGROUND_COLOR = Color.TRANSPARENT
         private const val DEFAULT_BORDER_OVERLAY = false

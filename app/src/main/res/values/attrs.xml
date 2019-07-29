@@ -10,7 +10,7 @@
 
 
     <declare-styleable name="CircleImageView">
-        <attr name="сц_borderWidth" format="dimension"/>
+        <attr name="cv_borderWidth" format="dimension"/>
         <attr name="cv_borderColor" format="color"/>
         <attr name="cv_borderOverlay" format="boolean"/>
         <attr name="cv_fillColor" format="color"/>
