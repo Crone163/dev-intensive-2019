@@ -12,3 +12,23 @@ fun String.stripHtml(): String = this
     .replace(Regex("\\s{2,}"), " ")
     .replace(Regex("<.*?>|&#\\d+?|\\w+?;"), "")
 
+
+
+fun String.isCorrectURL(): Boolean {
+    val wrongNames = listOf(
+        "enterprise",
+        "features",
+        "topics",
+        "collections",
+        "trending",
+        "events",
+        "marketplace",
+        "pricing",
+        "nonprofit",
+        "customer-stories",
+        "security",
+        "login",
+        "join"
+    ).joinToString("|")
+    return this.matches(Regex("""^(https://)?(www\.)?github\.com/(?!($wrongNames)/?$)[\-\w]+/?$"""))
+}

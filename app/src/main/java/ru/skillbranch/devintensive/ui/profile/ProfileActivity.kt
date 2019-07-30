@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile_constraint.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.isCorrectURL
 import ru.skillbranch.devintensive.extensions.toSp
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.utils.Utils
@@ -82,7 +83,8 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                wr_repository.error = if (!validateURL(s)) getString(R.string.error_validation_profile_link) else ""
+                wr_repository.error =
+                    if (!s.toString().isCorrectURL()) getString(R.string.error_validation_profile_link) else ""
             }
 
         })
@@ -144,7 +146,7 @@ class ProfileActivity : AppCompatActivity() {
             firstName = et_first_name.text.toString(),
             lastName = et_last_name.text.toString(),
             about = et_about.text.toString(),
-            repository = if (!validateURL(et_repository.text.toString())) "" else et_repository.text.toString()
+            repository = if (!et_repository.text.toString().isCorrectURL()) "" else et_repository.text.toString()
         ).apply {
             viewModel.saveProfileData(this)
             if (firstName.isNotBlank() || lastName.isNotBlank()) {
@@ -155,27 +157,6 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun validateURL(url: CharSequence?): Boolean {
-        val wrongNames = listOf(
-            "enterprise",
-            "features",
-            "topics",
-            "collections",
-            "trending",
-            "events",
-            "marketplace",
-            "pricing",
-            "nonprofit",
-            "customer-stories",
-            "security",
-            "login",
-            "join"
-        ).joinToString("|")
-
-        val pattern = Regex("""^(https://)?(www\.)?github.com/(?!$wrongNames)[^/]+$""")
-        return url.isNullOrBlank() || pattern.matches(url)
-    }
 
     private fun getColorAccent(): Int {
         val typedValue = TypedValue()
