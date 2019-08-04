@@ -18,4 +18,6 @@
     <dimen name="avatar_round_size">112dp</dimen>
     <dimen name="space_maximum_72">72dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_initials_size">52sp</dimen>
+
 </resources>

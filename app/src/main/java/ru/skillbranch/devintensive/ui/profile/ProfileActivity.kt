@@ -1,13 +1,10 @@
 package ru.skillbranch.devintensive.ui.profile
 
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,9 +14,8 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile_constraint.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.isCorrectURL
-import ru.skillbranch.devintensive.extensions.toSp
 import ru.skillbranch.devintensive.models.Profile
-import ru.skillbranch.devintensive.utils.Utils
+import ru.skillbranch.devintensive.utils.Utils.getDrawableInitials
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
@@ -35,13 +31,12 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewFields: Map<String, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_profile_constraint)
         initViews(savedInstanceState)
         initViewModel()
     }
-
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putBoolean(IS_EDIT_MODE, isEditMode)
@@ -49,7 +44,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
-
 
         viewFields = mapOf(
             "nickName" to tv_nick_name,
@@ -136,7 +130,14 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
             if (it["firstName"].toString().isNotEmpty() || it["lastName"].toString().isNotEmpty()) {
-                iv_avatar.setImageDrawable(getLetterTile(it["firstName"].toString(), it["lastName"].toString()))
+                iv_avatar.setImageDrawable(
+                    getDrawableInitials(
+                        this,
+                        resources.getDimension(R.dimen.text_initials_size),
+                        it["firstName"].toString(),
+                        it["lastName"].toString()
+                    )
+                )
             }
         }
     }
@@ -150,45 +151,12 @@ class ProfileActivity : AppCompatActivity() {
         ).apply {
             viewModel.saveProfileData(this)
             if (firstName.isNotBlank() || lastName.isNotBlank()) {
-                iv_avatar.setImageDrawable(getLetterTile(firstName, lastName))
+                iv_avatar.setImageDrawable(getDrawableInitials(this@ProfileActivity, resources.getDimension(R.dimen.text_initials_size), firstName, lastName))
             } else {
                 iv_avatar.setImageDrawable(ContextCompat.getDrawable(this@ProfileActivity, R.drawable.avatar_default))
             }
         }
     }
 
-
-    private fun getColorAccent(): Int {
-        val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
-        return typedValue.data
-    }
-
-    private fun getLetterTile(firstName: String, lastName: String): Drawable {
-        val width = resources.getDimensionPixelSize(R.dimen.avatar_round_size)
-        val height = resources.getDimensionPixelSize(R.dimen.avatar_round_size)
-
-
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val initials = Utils.toInitials(firstName, lastName)
-
-        val bounds = Rect()
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        val c = Canvas()
-        c.setBitmap(bitmap)
-
-        val halfWidth = (width / 2).toFloat()
-        val halfHeight = (height / 2).toFloat()
-        paint.style = Paint.Style.FILL
-        paint.color = getColorAccent()
-        c.drawCircle(halfWidth, halfHeight, halfWidth, paint)
-
-        paint.textSize = 52f.toSp()
-        paint.textAlign = Paint.Align.CENTER
-        paint.color = resources.getColor(android.R.color.white, theme)
-        paint.getTextBounds(initials, 0, initials!!.length, bounds)
-        c.drawText(initials.toString(), halfWidth, halfHeight - ((paint.descent() + paint.ascent()) / 2), paint)
-        return BitmapDrawable(resources, bitmap)
-    }
 
 }

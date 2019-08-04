@@ -19,9 +19,11 @@
                 app:layout_constraintTop_toTopOf="parent" android:scaleType="centerCrop"/>
         <ru.skillbranch.devintensive.ui.custom.CircleImageView
                 android:layout_width="@dimen/avatar_round_size"
-                android:layout_height="@dimen/avatar_round_size" app:srcCompat="@drawable/avatar_default"
+                android:layout_height="@dimen/avatar_round_size"
+                app:srcCompat="@drawable/avatar_default"
                 android:id="@+id/iv_avatar"
-
+                app:cv_borderColor="@android:color/white"
+                app:cv_borderWidth="2dp"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintBottom_toTopOf="@+id/tv_nick_name"/>

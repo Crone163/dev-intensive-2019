@@ -1,5 +1,15 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.util.TypedValue
+import androidx.core.graphics.drawable.toDrawable
+import ru.skillbranch.devintensive.R
+
 object Utils {
 
 
@@ -62,5 +72,36 @@ object Utils {
         firstName.isNullOrBlank() -> "${lastName?.first()}".toUpperCase()
         lastName.isNullOrBlank() -> "${firstName.first()}".toUpperCase()
         else -> "${firstName[0]}${lastName[0]}".toUpperCase()
+    }
+
+
+    fun getDrawableInitials(context: Context,textSize: Float, firstName: String, lastName: String): Drawable {
+        val width = context.resources.getDimensionPixelSize(R.dimen.avatar_round_size)
+        val height = context.resources.getDimensionPixelSize(R.dimen.avatar_round_size)
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val initials = toInitials(firstName, lastName)
+
+        val bounds = Rect()
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        val c = Canvas()
+        c.setBitmap(bitmap)
+
+        val halfWidth = (width / 2).toFloat()
+        val halfHeight = (height / 2).toFloat()
+        paint.style = Paint.Style.FILL
+
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
+
+        paint.color = typedValue.data
+        c.drawCircle(halfWidth, halfHeight, halfWidth, paint)
+
+        paint.textSize = textSize
+        paint.textAlign = Paint.Align.CENTER
+        paint.color = context.resources.getColor(android.R.color.white, context.theme)
+        paint.getTextBounds(initials, 0, initials!!.length, bounds)
+        c.drawText(initials, halfWidth, halfHeight - ((paint.descent() + paint.ascent()) / 2), paint)
+        return bitmap.toDrawable(context.resources)
     }
 }
