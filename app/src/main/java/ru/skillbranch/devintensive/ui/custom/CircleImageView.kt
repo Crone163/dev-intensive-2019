@@ -85,8 +85,6 @@ class CircleImageView @JvmOverloads constructor(
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
-
-
         updateBorder()
         updateBitmap()
     }
@@ -104,7 +102,7 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     @Dimension
-    fun getBorderWidth(): Int = mBorderWidth.toInt().toDp()
+    fun getBorderWidth(): Int = mBorderWidth.toDp().toInt()
 
     fun setBorderWidth(@Dimension dp: Int) {
         mBorderWidth = dp.toPx().toFloat()
