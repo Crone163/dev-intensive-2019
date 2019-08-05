@@ -6,11 +6,14 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.AttributeSet
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.toDp
+import ru.skillbranch.devintensive.extensions.toPx
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -41,10 +44,11 @@ class CircleImageView @JvmOverloads constructor(
     init {
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, 0, 0)
-
             mBorderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
-            mBorderWidth = a.getDimension(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
-
+            mBorderWidth = a.getDimension(
+                R.styleable.CircleImageView_cv_borderWidth,
+                DEFAULT_BORDER_WIDTH.toDp()
+            )
             a.recycle()
         }
 
@@ -82,12 +86,16 @@ class CircleImageView @JvmOverloads constructor(
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
 
-        val halfBorderWidth = mBorderPaint.strokeWidth / 2f
+
+        updateBorder()
+        updateBitmap()
+    }
+
+    private fun updateBorder() {
+        val halfBorderWidth = mBorderWidth / 2f
         updateCircleDrawBounds(mBitmapDrawBounds)
         mBorderBounds.set(mBitmapDrawBounds)
         mBorderBounds.inset(halfBorderWidth, halfBorderWidth)
-
-        updateBitmap()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -96,11 +104,11 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     @Dimension
-    fun getBorderWidth(): Int = mBorderWidth.roundToInt()
+    fun getBorderWidth(): Int = mBorderWidth.toInt().toDp()
 
     fun setBorderWidth(@Dimension dp: Int) {
-        mBorderWidth = dp.toFloat()
-
+        mBorderWidth = dp.toPx().toFloat()
+        updateBorder()
         updateBitmap()
     }
 
@@ -108,7 +116,6 @@ class CircleImageView @JvmOverloads constructor(
 
     fun setBorderColor(hex: String) {
         mBorderColor = Color.parseColor(hex)
-
         updateBitmap()
     }
 
@@ -170,8 +177,6 @@ class CircleImageView @JvmOverloads constructor(
         mBorderPaint.style = Paint.Style.STROKE
         mBorderPaint.strokeWidth = mBorderWidth
 
-        // scale up/down with respect to this view size and maintain aspect ratio
-        // translate bitmap position with dx/dy to the center of the image
         if (mBitmap!!.width < mBitmap!!.height) {
             scale = mBitmapDrawBounds.width() / mBitmap!!.width
             dx = mBitmapDrawBounds.left
@@ -184,6 +189,7 @@ class CircleImageView @JvmOverloads constructor(
         mShaderMatrix.setScale(scale, scale)
         mShaderMatrix.postTranslate(dx, dy)
         mBitmapShader?.setLocalMatrix(mShaderMatrix)
+        if(mInitialized)invalidate()
     }
 
     private fun getBitmapFromDrawable(drawable: Drawable?): Bitmap? {
