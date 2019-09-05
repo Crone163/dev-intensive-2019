@@ -168,8 +168,6 @@ class ProfileActivity : AppCompatActivity() {
             repository = if (!et_repository.text.toString().isCorrectURL()) "" else et_repository.text.toString()
         ).apply {
             viewModel.saveProfileData(this)
-
-
         }
     }
 
