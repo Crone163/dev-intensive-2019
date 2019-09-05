@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_profile_constraint.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.isCorrectURL
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.utils.Utils.getDrawableInitials
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
@@ -41,8 +42,8 @@ class ProfileActivity : AppCompatActivity() {
         initViewModel()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putBoolean(IS_EDIT_MODE, isEditMode)
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(IS_EDIT_MODE, isEditMode)
         super.onSaveInstanceState(outState)
     }
 
@@ -80,15 +81,28 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                wr_repository.error =
-                    if (!s.toString().isCorrectURL()) getString(R.string.error_validation_profile_link) else ""
+                if (!s.toString().isCorrectURL()) {
+                    wr_repository.isErrorEnabled = true
+                    wr_repository.error = getString(R.string.error_validation_profile_link)
+                } else {
+                    wr_repository.error = ""
+                    wr_repository.isErrorEnabled = false
+                }
             }
 
         })
     }
 
+
     private fun showCurrentMode(isEdit: Boolean) {
-        val info = viewFields.filter { setOf("firstName", "lastName", "about", "repository").contains(it.key) }
+        val info = viewFields.filter {
+            setOf(
+                "firstName",
+                "lastName",
+                "about",
+                "repository"
+            ).contains(it.key)
+        }
         for ((_, v) in info) {
             v.isEnabled = isEdit
             v.isFocusable = isEdit
@@ -101,7 +115,10 @@ class ProfileActivity : AppCompatActivity() {
 
         with(btn_edit) {
             val filter: ColorFilter? = if (isEdit) {
-                PorterDuffColorFilter(resources.getColor(R.color.color_accent, theme), PorterDuff.Mode.SRC_IN)
+                PorterDuffColorFilter(
+                    resources.getColor(R.color.color_accent, theme),
+                    PorterDuff.Mode.SRC_IN
+                )
             } else {
                 null
             }
@@ -132,17 +149,15 @@ class ProfileActivity : AppCompatActivity() {
             for ((k, v) in viewFields) {
                 v.text = it[k].toString()
             }
-            if (it["firstName"].toString().isNotEmpty() || it["lastName"].toString().isNotEmpty()) {
-                iv_avatar.setImageDrawable(
-                    getDrawableInitials(
-                        this,
-                        resources.getDimension(R.dimen.text_initials_size),
-                        it["firstName"].toString(),
-                        it["lastName"].toString()
-                    )
-                )
-            }
+            updateAvatar(profile)
         }
+    }
+
+    private fun updateAvatar(profile: Profile) {
+        Utils.toInitials(profile.firstName, profile.lastName)?.let {
+            iv_avatar.setImageDrawable(getDrawableInitials(this, it))
+        }
+            ?: iv_avatar.setImageResource(R.drawable.avatar_default)
     }
 
     private fun saveProfileInfo() {
@@ -153,11 +168,8 @@ class ProfileActivity : AppCompatActivity() {
             repository = if (!et_repository.text.toString().isCorrectURL()) "" else et_repository.text.toString()
         ).apply {
             viewModel.saveProfileData(this)
-            if (firstName.isNotBlank() || lastName.isNotBlank()) {
-                iv_avatar.setImageDrawable(getDrawableInitials(this@ProfileActivity, resources.getDimension(R.dimen.text_initials_size), firstName, lastName))
-            } else {
-                iv_avatar.setImageDrawable(ContextCompat.getDrawable(this@ProfileActivity, R.drawable.avatar_default))
-            }
+
+
         }
     }
 

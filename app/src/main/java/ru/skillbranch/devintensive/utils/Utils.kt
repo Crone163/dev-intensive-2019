@@ -75,33 +75,32 @@ object Utils {
     }
 
 
-    fun getDrawableInitials(context: Context,textSize: Float, firstName: String, lastName: String): Drawable {
-        val width = context.resources.getDimensionPixelSize(R.dimen.avatar_round_size)
-        val height = context.resources.getDimensionPixelSize(R.dimen.avatar_round_size)
+    fun getDrawableInitials(context: Context, initials: String): Drawable {
+        val size = context.resources.getDimensionPixelSize(R.dimen.avatar_round_size)
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
 
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val initials = toInitials(firstName, lastName)
+
 
         val bounds = Rect()
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         val c = Canvas()
         c.setBitmap(bitmap)
 
-        val halfWidth = (width / 2).toFloat()
-        val halfHeight = (height / 2).toFloat()
+        val halfSize = (size / 2).toFloat()
+
         paint.style = Paint.Style.FILL
 
         val typedValue = TypedValue()
         context.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
 
         paint.color = typedValue.data
-        c.drawCircle(halfWidth, halfHeight, halfWidth, paint)
+        c.drawCircle(halfSize, halfSize, halfSize, paint)
 
-        paint.textSize = textSize
+        paint.textSize = context.resources.getDimension(R.dimen.text_initials_size)
         paint.textAlign = Paint.Align.CENTER
         paint.color = context.resources.getColor(android.R.color.white, context.theme)
-        paint.getTextBounds(initials, 0, initials!!.length, bounds)
-        c.drawText(initials, halfWidth, halfHeight - ((paint.descent() + paint.ascent()) / 2), paint)
+        paint.getTextBounds(initials, 0, initials.length, bounds)
+        c.drawText(initials, halfSize, halfSize - ((paint.descent() + paint.ascent()) / 2), paint)
         return bitmap.toDrawable(context.resources)
     }
 }
