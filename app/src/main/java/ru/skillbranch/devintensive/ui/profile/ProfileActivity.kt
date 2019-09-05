@@ -149,16 +149,13 @@ class ProfileActivity : AppCompatActivity() {
             for ((k, v) in viewFields) {
                 v.text = it[k].toString()
             }
-            updateAvatar(profile)
+            Utils.toInitials(profile.firstName, profile.lastName)?.let {
+                iv_avatar.setImageDrawable(getDrawableInitials(this, it))
+            }
+                ?: iv_avatar.setImageResource(R.drawable.avatar_default)
         }
     }
-
-    private fun updateAvatar(profile: Profile) {
-        Utils.toInitials(profile.firstName, profile.lastName)?.let {
-            iv_avatar.setImageDrawable(getDrawableInitials(this, it))
-        }
-            ?: iv_avatar.setImageResource(R.drawable.avatar_default)
-    }
+ 
 
     private fun saveProfileInfo() {
         Profile(
