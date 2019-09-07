@@ -43,6 +43,7 @@ class ArchiveActivity : BaseActivity() {
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.archive_title)
     }
 
     private fun initViews() {
