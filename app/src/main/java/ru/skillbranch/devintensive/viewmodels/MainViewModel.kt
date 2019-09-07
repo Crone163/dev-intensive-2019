@@ -45,7 +45,10 @@ class MainViewModel : ViewModel() {
             )
             result.add(archiveItem)
         }
-        result.addAll(chats[false]!!.map { it.toChatItem() }.sortedBy { it.id.toInt() })
+        if(!chats[false].isNullOrEmpty()) {
+            val items = chats[false]!!.map { it.toChatItem() }.sortedBy { it.id.toInt() }
+            result.addAll(items)
+        }
         return@map result
     }
 

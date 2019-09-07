@@ -5,10 +5,6 @@ import ru.skillbranch.devintensive.models.data.Chat
 import ru.skillbranch.devintensive.models.data.User
 import java.util.*
 
-/**
- * Created by Makweb on 24.06.2019.
- */
-
 class ImageMessage(
     id: String,
     from: User,
