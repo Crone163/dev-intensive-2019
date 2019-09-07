@@ -11,6 +11,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.graphics.drawable.toBitmap
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.toDp
 import ru.skillbranch.devintensive.extensions.toPx
@@ -44,7 +45,8 @@ class CircleImageView @JvmOverloads constructor(
     init {
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, 0, 0)
-            mBorderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
+            mBorderColor =
+                a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
             mBorderWidth = a.getDimension(
                 R.styleable.CircleImageView_cv_borderWidth,
                 DEFAULT_BORDER_WIDTH.toDp()
@@ -153,11 +155,11 @@ class CircleImageView @JvmOverloads constructor(
         if (!mInitialized) {
             return
         }
-        mBitmap = getBitmapFromDrawable(drawable)
-        if (mBitmap == null) {
+        if (drawable == null) {
             return
         }
 
+        mBitmap = drawable.toBitmap()
         mBitmapShader = BitmapShader(mBitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         mBitmapPaint.shader = mBitmapShader
 
@@ -178,36 +180,19 @@ class CircleImageView @JvmOverloads constructor(
         if (mBitmap!!.width < mBitmap!!.height) {
             scale = mBitmapDrawBounds.width() / mBitmap!!.width
             dx = mBitmapDrawBounds.left
-            dy = mBitmapDrawBounds.top - mBitmap!!.height * scale / 2f + mBitmapDrawBounds.width() / 2f
+            dy =
+                mBitmapDrawBounds.top - mBitmap!!.height * scale / 2f + mBitmapDrawBounds.width() / 2f
         } else {
             scale = mBitmapDrawBounds.height() / mBitmap!!.height
-            dx = mBitmapDrawBounds.left - mBitmap!!.width * scale / 2f + mBitmapDrawBounds.width() / 2f
+            dx =
+                mBitmapDrawBounds.left - mBitmap!!.width * scale / 2f + mBitmapDrawBounds.width() / 2f
             dy = mBitmapDrawBounds.top
         }
         mShaderMatrix.setScale(scale, scale)
         mShaderMatrix.postTranslate(dx, dy)
         mBitmapShader?.setLocalMatrix(mShaderMatrix)
-        if(mInitialized)invalidate()
+        if (mInitialized) invalidate()
     }
 
-    private fun getBitmapFromDrawable(drawable: Drawable?): Bitmap? {
-        if (drawable == null) {
-            return null
-        }
 
-        if (drawable is BitmapDrawable) {
-            return drawable.bitmap
-        }
-
-        val bitmap = Bitmap.createBitmap(
-            drawable.intrinsicWidth,
-            drawable.intrinsicHeight,
-            BITMAP_CONFIG
-        )
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-
-        return bitmap
-    }
 }

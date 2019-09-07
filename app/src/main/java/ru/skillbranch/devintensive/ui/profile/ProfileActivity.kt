@@ -7,6 +7,7 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -18,12 +19,13 @@ import kotlinx.android.synthetic.main.activity_profile_constraint.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.isCorrectURL
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.ui.BaseActivity
 import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.utils.Utils.getDrawableInitials
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity() {
 
     companion object {
         const val IS_EDIT_MODE = "IS_EDIT_MODE"
@@ -36,7 +38,6 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_profile_constraint)
         initViews(savedInstanceState)
         initViewModel()
@@ -70,7 +71,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         btn_switch_theme.setOnClickListener {
-            viewModel.switchTheme()
+            switchTheme()
         }
 
         et_repository.addTextChangedListener(object : TextWatcher {
@@ -81,6 +82,7 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //ColorAccent совпадает с цветом Error
                 if (!s.toString().isCorrectURL()) {
                     wr_repository.isErrorEnabled = true
                     wr_repository.error = getString(R.string.error_validation_profile_link)
@@ -137,12 +139,9 @@ class ProfileActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
-        viewModel.getTheme().observe(this, Observer { updateTheme(it) })
     }
 
-    private fun updateTheme(mode: Int) {
-        delegate.setLocalNightMode(mode)
-    }
+
 
     private fun updateUI(profile: Profile) {
         profile.toMap().also {
@@ -150,12 +149,14 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
             Utils.toInitials(profile.firstName, profile.lastName)?.let {
-                iv_avatar.setImageDrawable(getDrawableInitials(this, it))
+                val typedValue = TypedValue()
+                theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
+                iv_avatar.setImageDrawable(getDrawableInitials(this, it, typedValue.data))
             }
                 ?: iv_avatar.setImageResource(R.drawable.avatar_default)
         }
     }
- 
+
 
     private fun saveProfileInfo() {
         Profile(

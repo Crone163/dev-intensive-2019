@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chat Dev-intensive</string>
+    <string name="app_name">Dev-intensive Chat</string>
     <string name="profile_label_rating">Рейтинг</string>
     <string name="profile_label_respect">Уважение</string>
     <string name="profile_hint_repository">Репозиторий</string>
@@ -9,4 +9,8 @@
     <string name="et_message_hint">Введите текст</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="error_validation_profile_link">Невалидный адрес репозитория</string>
+    <string name="menu_search_title">Поиск</string>
+    <string name="archive_undo">Отмена</string>
+    <string name="create_group_title">Создание группы</string>
+    <string name="archive_title">Архив чатов</string>
 </resources>

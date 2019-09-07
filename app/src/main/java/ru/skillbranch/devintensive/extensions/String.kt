@@ -30,5 +30,5 @@ fun String.isCorrectURL(): Boolean {
         "login",
         "join"
     ).joinToString("|")
-    return this.isBlank() || this.matches(Regex("""^(https://)?(www\.)?github\.com/(?!($wrongNames)/?$)[\-\w]+/?$"""))
+    return this.isNullOrBlank() || this.matches(Regex("""^(https://)?(www\.)?github\.com/(?!($wrongNames)/?$)[\-\w]+/?$"""))
 }

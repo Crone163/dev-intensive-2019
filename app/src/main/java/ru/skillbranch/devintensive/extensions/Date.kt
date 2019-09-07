@@ -24,6 +24,13 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
     return this
 }
 
+fun Date.shortFormat(): String {
+    val pattern = if (this.isSameDay(Date())) "HH:mm" else "dd.MM.yy"
+    return SimpleDateFormat(pattern, Locale("ru")).format(this)
+}
+
+private fun Date.isSameDay(otherDate: Date): Boolean = (this.time / DAY) == (otherDate.time / DAY)
+
 fun Date.humanizeDiff(date: Date = Date()): String {
     val diff = date.time - this.time
     val absDiff = Math.abs(diff)

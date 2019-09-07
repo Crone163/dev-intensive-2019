@@ -5,7 +5,7 @@ import java.util.*
 
 class TextMessage(
     id: String,
-    from: User?,
+    from: User,
     chat: Chat,
     isIncoming: Boolean = false,
     date: Date = Date(),

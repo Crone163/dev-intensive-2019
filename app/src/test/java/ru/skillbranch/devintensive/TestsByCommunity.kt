@@ -6,6 +6,8 @@ import org.junit.Assert.assertThat
 import org.junit.Test
 import ru.skillbranch.devintensive.extensions.*
 import ru.skillbranch.devintensive.models.*
+import ru.skillbranch.devintensive.models.data.Chat
+import ru.skillbranch.devintensive.models.data.User
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
@@ -125,7 +127,7 @@ class TestsByCommunity {
     @Test
     fun test_abstract_factory() {
         val user = User.makeUser("Евгений Иванов")
-        val textMessage =
+        /*val textMessage =
             BaseMessage.makeMessage(user, Chat("0"), Date(),  "any text message","text")
         val imageMessage =
             BaseMessage.makeMessage(
@@ -135,7 +137,7 @@ class TestsByCommunity {
                 "https://anyurl.com",
                 "image",
                 true
-            )
+            )*/
 
         //assertEquals("Евгений отправил сообщение \"any text message\" только что", textMessage.formatMessage())
       //  assertEquals("Евгений получил изображение \"https://anyurl.com\" 2 часа назад", imageMessage.formatMessage())

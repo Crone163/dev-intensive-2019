@@ -8,10 +8,19 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.toColorInt
 import ru.skillbranch.devintensive.R
 
 object Utils {
-
+    private val bgColors = arrayOf(
+        "#7BC862",
+        "#E17076",
+        "#FAA774",
+        "#6EC9CB",
+        "#65AADD",
+        "#A695E7",
+        "#EE7AAE"
+    )
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
         var newName = fullName?.trim()
@@ -75,10 +84,9 @@ object Utils {
     }
 
 
-    fun getDrawableInitials(context: Context, initials: String): Drawable {
+    fun getDrawableInitials(context: Context, initials: String, color: Int): Drawable {
         val size = context.resources.getDimensionPixelSize(R.dimen.avatar_round_size)
         val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-
 
 
         val bounds = Rect()
@@ -90,10 +98,15 @@ object Utils {
 
         paint.style = Paint.Style.FILL
 
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
 
-        paint.color = typedValue.data
+        if (color == -1) {
+            paint.style = Paint.Style.FILL
+            val random = initials.hashCode() % bgColors.size
+            paint.color = bgColors[random].toColorInt()
+        } else {
+            paint.color = color
+        }
+
         c.drawCircle(halfSize, halfSize, halfSize, paint)
 
         paint.textSize = context.resources.getDimension(R.dimen.text_initials_size)
@@ -103,4 +116,10 @@ object Utils {
         c.drawText(initials, halfSize, halfSize - ((paint.descent() + paint.ascent()) / 2), paint)
         return bitmap.toDrawable(context.resources)
     }
+
+    fun getDrawableInitials(context: Context, initials: String): Drawable {
+        return getDrawableInitials(context, initials, -1)
+    }
+
+
 }
