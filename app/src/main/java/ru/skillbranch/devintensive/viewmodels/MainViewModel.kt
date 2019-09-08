@@ -35,14 +35,14 @@ class MainViewModel : ViewModel() {
             val archiveItem = ChatItem(
                 "-1",
                 null,
-                " ",
-                " ",
+                "",
+                "Архив чатов",
                 lastAuthor.first().lastMessageShort().first,
                 countAllUnreadable,
                 if (lastDate.size > 0) lastDate.first().lastMessageDate()!!.shortFormat() else "",
                 lastAuthor.first().toChatItem().isOnline,
                 ChatType.ARCHIVE,
-                Utils.parseFullName(lastAuthor.first().toChatItem().title).first
+                "@" + Utils.parseFullName(lastAuthor.first().toChatItem().title).first
 
             )
             result.add(archiveItem)

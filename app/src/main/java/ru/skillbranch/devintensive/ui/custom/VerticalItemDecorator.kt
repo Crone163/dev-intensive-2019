@@ -36,9 +36,9 @@ class VerticalItemDecorator(context: Context) : RecyclerView.ItemDecoration() {
         val childCount = parent.childCount
         for (i in 0 until childCount) {
             // hide the divider for the last child
-            if (i == childCount - 1) {
+            /*if (i == childCount - 1) {
                 return
-            }
+            }*/
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + params.bottomMargin
