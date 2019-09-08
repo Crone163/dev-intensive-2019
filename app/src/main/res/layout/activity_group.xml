@@ -60,6 +60,7 @@
             android:scaleX="0"
             android:scaleY="0"
             android:visibility="invisible"
+            app:backgroundTint="?attr/colorAccent"
             app:srcCompat="@drawable/ic_arrow_forward_white_24dp"
             tools:scaleX="1"
             tools:scaleY="1"
