@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.models.data
 
 import androidx.annotation.VisibleForTesting
+import ru.skillbranch.devintensive.extensions.nullableDate
 import ru.skillbranch.devintensive.extensions.shortFormat
 import ru.skillbranch.devintensive.models.BaseMessage
 import ru.skillbranch.devintensive.models.ImageMessage
@@ -19,14 +20,16 @@ data class Chat(
     fun unreadableMessageCount(): Int = messages.count { !it.isReaded }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun lastMessageDate(): Date? = messages.lastOrNull()?.date
+    fun lastMessageDate(): Date? = messages.lastOrNull()?.date ?: Date().nullableDate()
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun lastMessageShort(): Pair<String, String?> = when(val lastMessage = messages.lastOrNull()){
+    fun lastMessageShort(): Pair<String, String? > = when(val lastMessage = messages.lastOrNull()){
         is TextMessage -> (lastMessage.text ?: "") to lastMessage.from.firstName
         is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to lastMessage.from.firstName
         else -> "Неподдерживаемый тип сообщения" to lastMessage?.from?.firstName
     }
+
+
 
     private fun isSingle(): Boolean = members.size == 1
 
@@ -40,7 +43,7 @@ data class Chat(
                 "${user.firstName ?: ""} ${user.lastName ?: ""}",
                 lastMessageShort().first,
                 unreadableMessageCount(),
-                lastMessageDate()?.shortFormat(),
+                if(lastMessageDate()!!.equals(Date().nullableDate())) "" else lastMessageDate()?.shortFormat(),
                 user.isOnline
             )
         } else {
@@ -51,7 +54,7 @@ data class Chat(
                 title,
                 lastMessageShort().first,
                 unreadableMessageCount(),
-                lastMessageDate()?.shortFormat(),
+                if(lastMessageDate()!!.equals(Date().nullableDate())) "" else lastMessageDate()?.shortFormat(),
                 false,
                 ChatType.GROUP,
                 lastMessageShort().second
