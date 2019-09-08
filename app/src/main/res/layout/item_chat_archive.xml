@@ -48,7 +48,7 @@
             android:layout_below="@id/tv_title_archive"
             android:layout_marginRight="@dimen/spacing_normal_16"
             android:layout_toRightOf="@id/tv_message_author_archive"
-            android:textColor="?attr/colorMessage"
+            android:textColor="?attr/colorTextDesc"
             android:textSize="14sp"
               />
 

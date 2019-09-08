@@ -15,7 +15,7 @@
         <item name="colorIcon">@android:color/white</item>
         <item name="colorDivider">@color/color_divider_dark</item>
         <item name="android:statusBarColor">@android:color/black</item>
-        <item name="colorMessage">@color/gray</item>
+        <item name="colorMessage">@color/light_gray</item>
         <item name="colorArchiveIcon">@color/color_gray_dark</item>
         <item name="colorCounterBackground">@color/color_gray_dark</item>
         <item name="colorIndicatorBackground">@color/color_accent_night</item>
@@ -25,10 +25,12 @@
         <item name="colorSnackbarTextColor">@color/color_background_dark_night</item>
         <item name="colorSwipeBackground">@color/color_accent_night</item>
         <item name="colorChipBackground">@color/color_background_night</item>
-        <item name="colorChipButtonBackground" >@color/gray</item>
+        <item name="colorChipButtonBackground" >@color/light_gray</item>
         <item name="colorBackground">@color/color_background_night</item>
         <item name="colorIndicatorBorder">@android:color/white</item>
         <item name="colorDarkBackground">@color/color_background_dark_night</item>
+        <item name="colorTextDesc">@color/color_text_desc</item>
+
 
     </style>
 

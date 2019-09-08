@@ -54,7 +54,7 @@
             android:layout_toLeftOf="@+id/tv_counter_group"
             android:layout_toRightOf="@+id/tv_message_author"
             android:fontFamily="sans-serif-medium"
-            android:textColor="?attr/colorMessage"
+            android:textColor="?attr/colorTextDesc"
             android:textSize="14sp"
             tools:text="chat title" />
 

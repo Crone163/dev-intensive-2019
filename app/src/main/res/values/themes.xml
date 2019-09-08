@@ -12,11 +12,11 @@
 
         <!-- Theme Colors -->
         <item name="colorAccentedSurface">@color/color_primary_light</item>
-        <item name="colorIcon">@color/gray</item>
+        <item name="colorIcon">@color/light_gray</item>
         <item name="colorDivider">@color/color_divider_dark</item>
         <item name="colorBackground">@android:color/white</item>
         <item name="colorMessage">@color/color_gray_dark</item>
-        <item name="colorArchiveIcon">@color/gray</item>
+        <item name="colorArchiveIcon">@color/light_gray</item>
         <item name="colorCounterBackground">@color/color_bg_counter_light</item>
         <item name="colorIndicatorBackground">@color/color_indicator_light</item>
         <item name="colorIconDone">@color/color_primary</item>
@@ -28,7 +28,7 @@
         <item name="colorChipButtonBackground" >@android:color/white</item>
         <item name="colorIndicatorBorder">@android:color/white</item>
         <item name="colorDarkBackground">@color/color_background_dark_light</item>
-
+        <item name="colorTextDesc">@color/color_text_desc_light</item>
     </style>
 
 </resources>

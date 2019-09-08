@@ -7,7 +7,7 @@
     <color name="color_accent">#FC4C4C</color>
     <color name="color_accent_secondary">#BEAC32EE</color>
     <color name="color_primary">#2A1956</color>
-    <color name="gray">#9CA9BA</color>
+    <color name="light_gray">#9CA9BA</color>
 
     <!-- Day theme -->
     <color name="gray_light">#ECECEC</color>
@@ -17,8 +17,10 @@
     <color name="color_bg_counter_light">#581F99</color>
     <color name="color_indicator_light">#4FD149</color>
     <color name="color_background_dark_light">#FAFAFA</color>
+    <color name="color_text_desc_light">#675F7F</color>
     <!-- Night theme -->
     <color name="gray_dark">#675F7F</color>
+    <color name="color_text_desc">#9CA9BA</color>
     <color name="color_primary_dark">#1C0E42</color>
     <color name="color_accent_night">#2196F3</color>
     <color name="color_gray_dark">#675F7F</color>

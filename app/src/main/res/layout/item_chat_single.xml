@@ -46,7 +46,7 @@
             android:layout_toLeftOf="@+id/tv_counter_single"
             android:layout_toRightOf="@+id/iv_avatar_single"
             android:fontFamily="sans-serif-medium"
-            android:textColor="?attr/colorMessage"
+            android:textColor="?attr/colorTextDesc"
             android:textSize="14sp"
             android:maxLines="1"
             tools:text="chat title" />
