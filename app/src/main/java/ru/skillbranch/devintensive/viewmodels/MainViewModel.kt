@@ -7,12 +7,9 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import ru.skillbranch.devintensive.extensions.mutableLiveData
 import ru.skillbranch.devintensive.extensions.shortFormat
-import ru.skillbranch.devintensive.models.data.Chat
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.repositories.ChatRepository
-import ru.skillbranch.devintensive.utils.DataGenerator
-import ru.skillbranch.devintensive.utils.Utils
 
 class MainViewModel : ViewModel() {
     private val query = mutableLiveData("")
@@ -27,22 +24,22 @@ class MainViewModel : ViewModel() {
             val countAllUnreadable =
                 allArchive.sumBy { it.unreadableMessageCount() }
             Log.e("CountUnreadable", countAllUnreadable.toString())
-            val lastAuthor =
+            val lastArchive =
                 allArchive.sortedByDescending { it.lastMessageDate() }
             //Дата сообщения может быть пуста???
-            val lastDate = lastAuthor.filter { it.lastMessageDate() != null }
+            val lastDate = lastArchive.filter { it.lastMessageDate() != null }
 
             val archiveItem = ChatItem(
                 "-1",
                 null,
                 "",
                 "Архив чатов",
-                lastAuthor.first().lastMessageShort().first,
+                lastArchive.first().lastMessageShort().first,
                 countAllUnreadable,
                 if (lastDate.size > 0) lastDate.first().lastMessageDate()!!.shortFormat() else "",
-                lastAuthor.first().toChatItem().isOnline,
+                lastArchive.first().toChatItem().isOnline,
                 ChatType.ARCHIVE,
-                "@" + Utils.parseFullName(lastAuthor.first().toChatItem().title).first
+                "@" + lastArchive.first().lastMessageShort().second
 
             )
             result.add(archiveItem)
