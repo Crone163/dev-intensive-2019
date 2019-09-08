@@ -13,4 +13,5 @@
     <string name="archive_undo">Отмена</string>
     <string name="create_group_title">Создание группы</string>
     <string name="archive_title">Архив чатов</string>
+    <string name="enter_name">Введите имя пользователя</string>
 </resources>

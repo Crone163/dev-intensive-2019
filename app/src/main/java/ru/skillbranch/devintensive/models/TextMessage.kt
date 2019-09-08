@@ -13,4 +13,4 @@ class TextMessage(
     date: Date = Date(),
     isReaded:Boolean = false,
     var text: String?
-) : BaseMessage(id, from, chat, isIncoming, date, isReaded) 
+) : BaseMessage(id, from, chat, isIncoming, date, isReaded)

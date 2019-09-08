@@ -12,6 +12,7 @@ import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.repositories.ChatRepository
 import ru.skillbranch.devintensive.utils.DataGenerator
+import ru.skillbranch.devintensive.utils.Utils
 
 class MainViewModel : ViewModel() {
     private val query = mutableLiveData("")
@@ -27,25 +28,26 @@ class MainViewModel : ViewModel() {
                 allArchive.sumBy { it.unreadableMessageCount() }
             Log.e("CountUnreadable", countAllUnreadable.toString())
             val lastAuthor =
-                allArchive .sortedByDescending { it.lastMessageDate() }
+                allArchive.sortedByDescending { it.lastMessageDate() }
             //Дата сообщения может быть пуста???
             val lastDate = lastAuthor.filter { it.lastMessageDate() != null }
 
             val archiveItem = ChatItem(
                 "-1",
                 null,
-                "",
-                "",
+                " ",
+                " ",
                 lastAuthor.first().lastMessageShort().first,
                 countAllUnreadable,
-                if(lastDate.size > 0) lastDate.first().lastMessageDate()!!.shortFormat() else "",
+                if (lastDate.size > 0) lastDate.first().lastMessageDate()!!.shortFormat() else "",
                 lastAuthor.first().toChatItem().isOnline,
                 ChatType.ARCHIVE,
-                lastAuthor.first().toChatItem().title
+                Utils.parseFullName(lastAuthor.first().toChatItem().title).first
+
             )
             result.add(archiveItem)
         }
-        if(!chats[false].isNullOrEmpty()) {
+        if (!chats[false].isNullOrEmpty()) {
             val items = chats[false]!!.map { it.toChatItem() }.sortedBy { it.id.toInt() }
             result.addAll(items)
         }

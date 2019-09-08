@@ -42,7 +42,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
-        searchView.queryHint = "Введите имя пользователя"
+        searchView.queryHint = getString(R.string.enter_name)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.handleSearchQuery(query)
