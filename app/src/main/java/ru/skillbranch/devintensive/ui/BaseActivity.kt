@@ -15,7 +15,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setTheme(R.style.AppTheme)
         viewModel = ViewModelProviders.of(this).get(BaseViewModel::class.java)
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
 
